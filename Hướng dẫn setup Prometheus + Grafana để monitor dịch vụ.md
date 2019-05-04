@@ -174,8 +174,23 @@ password=Welcome123
 
 ```
 
-  
+ ### Cài đặt Grafana
 
+```
+wget https://dl.grafana.com/oss/release/grafana-5.4.2-1.x86_64.rpm 
+yum localinstall grafana-5.4.2-1.x86_64.rpm 
+vim /etc/grafana/grafana.ini 
+```
+
+Tải bộ dashboard của MySQL
+
+```
+git clone https://github.com/percona/grafana-dashboards.git
+cp -r grafana-dashboards/dashboards /var/lib/grafana
+systemctl start grafana-server
+systemctl status grafana-server
+systemctl enable grafana-server
+```
 
 
 
