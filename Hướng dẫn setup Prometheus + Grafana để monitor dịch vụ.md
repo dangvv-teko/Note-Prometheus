@@ -28,6 +28,13 @@ Set up Prometheus + Grafana cần phải setup theo mô hình Master – Slave, 
 Tải source của Prometheus và cấu hình file config của prometheus:
 
 ```
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+
 # Download source cai dat cua Prometheus
 cd ~
 wget https://github.com/prometheus/prometheus/releases/download/v2.6.0/prometheus-2.6.0.linux-amd64.tar.gz
@@ -191,6 +198,64 @@ systemctl start grafana-server
 systemctl status grafana-server
 systemctl enable grafana-server
 ```
+
+Một số mẫu câu query trên Grafana
+
+* Số lần sort table của MySQL trong 1 phút
+
+```
+rate(mysql_global_status_sort_rows[1m])
+rate(mysql_global_status_sort_range[1m])
+rate(mysql_global_status_sort_merge_passes[1m])
+rate(mysql_global_status_sort_rows[1m])
+```
+
+* Số thread đang chạy của MySQL
+
+```
+mysql_global_status_threads_connected
+mysql_global_status_slow_launch_threads
+mysql_global_variables_thread_concurrency
+```
+
+* Tổng số câu query phân loại theo command
+
+```
+sum by (command) ( rate(mysql_global_status_commands_total{ command=~"(select|insert|update|delete)"}[1m]))
+```
+
+* Load của Linux theo phút
+
+
+```
+
+node_load1
+node_load15
+node_load15
+```
+
+* Tổng network traffic của server theo phút
+
+```
+rate(node_network_transmit_bytes_total{device!="lo"}[1m]) or irate(node_network_transmit_bytes_total{device!="lo"}[1m])
+rate(node_network_receive_bytes_total{device!="lo"}[1m]) or irate(node_network_receive_bytes_total{device!="lo"}[1m])
+```
+
+* Slow query của MySQL
+
+```
+rate(mysql_global_variables_slow_launch_time[1m])
+rate(mysql_global_variables_slow_query_log[1m])
+rate(mysql_global_status_slow_launch_threads[1m])
+rate(mysql_global_status_slow_queries[1m])
+```
+
+
+
+
+
+
+
 
 
 
