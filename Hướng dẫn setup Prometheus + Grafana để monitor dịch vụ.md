@@ -165,6 +165,7 @@ Với loại agent cho MySQL thì ta cần phải tạo 1 tài khoản MySQL có
 
 ```
 # Login vao MySQL voi quyen root va tao 1 tai khoan de monitor MySQL
+mysql_secure_installation
 GRANT REPLICATION CLIENT, PROCESS ON *.* TO 'prom'@'localhost' identified by 'Welcome123';
 GRANT SELECT ON performance_schema.* TO 'prom'@'localhost';
  
