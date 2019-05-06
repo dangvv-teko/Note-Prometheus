@@ -2,7 +2,7 @@
 
 Node Prometheus : 192.168.40.149
 
-Node slave : 192.168.40.450
+Node slave : 192.168.40.150
 
 ```
 sudo systemctl disable firewalld
