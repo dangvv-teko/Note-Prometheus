@@ -32,6 +32,10 @@ global:
   scrape_interval:     5s
   evaluation_interval: 5s
 scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
   - job_name: linux
     static_configs:
       - targets: ['192.168.40.150:9100']
